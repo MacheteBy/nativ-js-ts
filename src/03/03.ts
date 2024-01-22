@@ -40,3 +40,8 @@ export const toFireStation = (govenmentBuilding: GovenmentBuildingType, staffCou
 export const toHireStaff = (govenmentBuilding: GovenmentBuildingType, staffCounttoHire: number) => {
     govenmentBuilding.staffCount += staffCounttoHire
 }
+
+
+export const createMeaasge = (props: LocalCityType) => {
+    return `Hello ${props.title} citizens. I want you be happy. All ${props.citizensNumder} men`
+}

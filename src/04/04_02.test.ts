@@ -1,13 +1,16 @@
 import { LocalCityType } from "../02/02_02";
-import { addMoneyToBudget, createMeaasge, demolishHousesOnTheStreet, repairHouse, toFireStation, toHireStaff } from "./03";
+import { demolishHousesOnTheStreet, getBuildingsWithStaffCountGreaterThen } from "./04_02";
 
 
-let city: LocalCityType;
+type NewType = LocalCityType;
+
+let city: NewType;
 
 beforeEach(() => {
     city = {
         title: 'New York',
         house: [{
+            id: 1,
             buildedAt: 2012,
             repaired: false,
             adress: {
@@ -18,6 +21,7 @@ beforeEach(() => {
             }
         },
         {
+            id: 2,
             buildedAt: 2008,
             repaired: false,
             adress: {
@@ -27,6 +31,7 @@ beforeEach(() => {
                 }
             }
         }, {
+            id: 3,
             buildedAt: 2020,
             repaired: false,
             adress: {
@@ -61,39 +66,16 @@ beforeEach(() => {
 })
 
 
-test('Budger should be change for HOSPITAL', () => {
-    addMoneyToBudget(city.govenmentBuilding[0], 100000);
+test('Houses should be destroyed', () => {
+    demolishHousesOnTheStreet(city, 'Happy street');
 
-    expect(city.govenmentBuilding[0].budget).toBe(300000);
+    expect(city.house.length).toBe(1)
+    expect(city.house[0].id).toBe(1)
 })
 
-test('Budger should be change for FIRE-STATION', () => {
-    addMoneyToBudget(city.govenmentBuilding[1], -100000);
+test('building with correct staff count', () => {
+    let buildings = getBuildingsWithStaffCountGreaterThen(city.govenmentBuilding, 500)
 
-    expect(city.govenmentBuilding[1].budget).toBe(400000);
-})
-
-test('Houses should be repared', () => {
-    repairHouse(city.house[1])
-
-    expect(city.house[1].repaired).toBe(true)
-})
-
-test('Staff should be increased', () => {
-    toFireStation(city.govenmentBuilding[0], 20)
-
-    expect(city.govenmentBuilding[0].staffCount).toBe(180)
-})
-
-test('House should be repared', () => {
-    toHireStaff(city.govenmentBuilding[0], 20)
-
-    expect(city.govenmentBuilding[0].staffCount).toBe(220)
-})
-
-
-test('Greeting message should be correct for city', () => {
-    const message = createMeaasge(city);
-
-    expect(message).toBe('Hello New York citizens. I want you be happy. All 1000000 men')
+    expect(buildings.length).toBe(1)
+    expect(buildings[0].type).toBe('FIRE-STATION')
 })
